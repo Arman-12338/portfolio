@@ -11,7 +11,7 @@ const projects = [
     name: 'Weather App',
     description: 'A premium, real-time weather analytics application. Integrates global geolocation databases and OpenWeather APIs to produce real-time forecasts, atmospheric metrics, and sleek, weather-conditioned visual interfaces.',
     tech: ['React.js', 'Tailwind CSS', 'OpenWeather API', 'Lottie Animations', 'HTML5'],
-    video: '/video/Screen Recording 2025-10-02 115341.mp4',
+    video: 'video/Screen Recording 2025-10-02 115341.mp4',
     github: 'https://github.com',
     demo: 'https://google.com'
   },
@@ -19,7 +19,7 @@ const projects = [
     name: 'Expense Tracker',
     description: 'A professional personal budgeting dashboard. Designed to handle expense tracking, categorical transaction ledgers, interactive budget allocations, and real-time dashboard expense statistics.',
     tech: ['MERN Stack', 'Express.js', 'MongoDB', 'Chart.js Core', 'Tailwind CSS', 'Node.js'],
-    video: '/video/Screen Recording 2025-10-11 143523.mp4',
+    video: 'video/Screen Recording 2025-10-11 143523.mp4',
     github: 'https://github.com',
     demo: 'https://google.com'
   },
@@ -27,11 +27,12 @@ const projects = [
     name: 'Tic-Tac-Toe',
     description: 'An interactive, high-fidelity classic gameplay application. Built around custom React state structures, fluid Framer Motion board animations, scorekeeping profiles, and zero latency touch indicators.',
     tech: ['React.js', 'Framer Motion', 'React Hooks', 'Tailwind CSS', 'Micro-interactions'],
-    video: '/video/Screen Recording 2026-03-17 103114.mp4',
+    video: 'video/Screen Recording 2026-03-17 103114.mp4',
     github: 'https://github.com',
     demo: 'https://google.com'
   }
 ];
+
 
 // Procedural 3D curved desktop monitor component using a single persistent video texture ref
 function DesktopMonitor3D({ videoUrl }) {
