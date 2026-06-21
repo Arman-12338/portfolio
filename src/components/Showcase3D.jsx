@@ -56,46 +56,47 @@ function DesktopMonitor3D({ videoUrl }) {
   const videoRef = useRef(null);
   const [texture, setTexture] = useState(null);
 
-  // Initialize a single HTML5 video element and VideoTexture once on mount
+  // Initialize a single HTML5 video element once on mount
   useEffect(() => {
     const vid = document.createElement('video');
     vid.crossOrigin = 'Anonymous';
     vid.loop = true;
     vid.muted = true;
     vid.playsInline = true;
-    const resolvedUrl = videoUrl.startsWith('http') || videoUrl.startsWith('/') || videoUrl.startsWith('blob:') 
-      ? videoUrl 
-      : `${import.meta.env.BASE_URL || '/'}${videoUrl}`;
-    vid.src = resolvedUrl;
-    vid.load();
-    vid.play().catch((err) => console.log('Video play error on mount', err));
     
     videoRef.current = vid;
-
-    const tex = new THREE.VideoTexture(vid);
-    tex.colorSpace = THREE.SRGBColorSpace; // preserve vibrant video colors
-    setTexture(tex);
 
     // Memory cleanup on unmount
     return () => {
       vid.pause();
       vid.src = '';
       vid.load();
-      tex.dispose();
     };
   }, []);
 
-  // When videoUrl changes, simply swap the src of our persistent video element (no unmounting!)
+  // When videoUrl changes, swap the source and recreate the video texture to update the GPU
   useEffect(() => {
     if (videoRef.current && videoUrl) {
       const vid = videoRef.current;
       vid.pause();
+      
       const resolvedUrl = videoUrl.startsWith('http') || videoUrl.startsWith('/') || videoUrl.startsWith('blob:') 
         ? videoUrl 
         : `${import.meta.env.BASE_URL || '/'}${videoUrl}`;
+        
       vid.src = resolvedUrl;
       vid.load();
+
+      // Create new VideoTexture for the new source to trigger a React state change and GPU upload
+      const tex = new THREE.VideoTexture(vid);
+      tex.colorSpace = THREE.SRGBColorSpace; // preserve vibrant video colors
+      setTexture(tex);
+      
       vid.play().catch((err) => console.log('Video source swap error', err));
+
+      return () => {
+        tex.dispose();
+      };
     }
   }, [videoUrl]);
 
