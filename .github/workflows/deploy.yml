@@ -36,6 +36,7 @@ jobs:
         run: npm run build
         env:
           VITE_WHATSAPP_URL: ${{ secrets.VITE_WHATSAPP_URL }}
+          VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

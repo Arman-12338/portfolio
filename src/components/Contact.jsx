@@ -30,28 +30,64 @@ export default function Contact() {
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
 
-    // Simulate database write
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      
-      // Trigger premium cosmic canvas-confetti celebration!
-      confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#a855f7', '#06b6d4', '#ec4899', '#ffffff']
-      });
-
-      // Reset form
-      setFormState({ name: '', email: '', message: '' });
-    }, 1500);
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (accessKey) {
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            name: formState.name,
+            email: formState.email,
+            message: formState.message,
+            subject: 'New Message from Portfolio Website Contact Form'
+          })
+        });
+        const result = await response.json();
+        if (result.success) {
+          setIsSubmitting(false);
+          setSubmitted(true);
+          
+          confetti({
+            particleCount: 150,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#a855f7', '#06b6d4', '#ec4899', '#ffffff']
+          });
+          setFormState({ name: '', email: '', message: '' });
+        } else {
+          setIsSubmitting(false);
+          alert('Failed to transmit message: ' + (result.message || 'Unknown error'));
+        }
+      } catch (error) {
+        setIsSubmitting(false);
+        console.error('Web3Forms Transmission Error:', error);
+        alert('Network transmission failed. Please try again or use direct email.');
+      }
+    } else {
+      // Fallback: Simulate database write if access key is not set
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setSubmitted(true);
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#a855f7', '#06b6d4', '#ec4899', '#ffffff']
+        });
+        setFormState({ name: '', email: '', message: '' });
+      }, 1500);
+    }
   };
 
   const getResumeUrl = () => {
