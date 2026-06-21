@@ -50,55 +50,70 @@ const projects = [
 ];
 
 
-// Procedural 3D curved desktop monitor component using a single persistent video texture ref
+// Procedural 3D curved desktop monitor component using a cache of video textures for instant transitions
 function DesktopMonitor3D({ videoUrl }) {
   const monitorGroupRef = useRef(null);
-  const videoRef = useRef(null);
+  const cacheRef = useRef({}); // { [url]: { video, texture } }
   const [texture, setTexture] = useState(null);
 
-  // Initialize a single HTML5 video element once on mount
   useEffect(() => {
-    const vid = document.createElement('video');
-    vid.crossOrigin = 'Anonymous';
-    vid.loop = true;
-    vid.muted = true;
-    vid.playsInline = true;
-    
-    videoRef.current = vid;
+    // When videoUrl changes, manage the cache and update state
+    if (videoUrl) {
+      // 1. If not in cache, create the video and texture
+      if (!cacheRef.current[videoUrl]) {
+        const vid = document.createElement('video');
+        vid.crossOrigin = 'Anonymous';
+        vid.loop = true;
+        vid.muted = true;
+        vid.playsInline = true;
+        vid.preload = 'auto';
 
-    // Memory cleanup on unmount
-    return () => {
-      vid.pause();
-      vid.src = '';
-      vid.load();
-    };
-  }, []);
+        const resolvedUrl = videoUrl.startsWith('http') || videoUrl.startsWith('/') || videoUrl.startsWith('blob:') 
+          ? videoUrl 
+          : `${import.meta.env.BASE_URL || '/'}${videoUrl}`;
+          
+        vid.src = resolvedUrl;
+        vid.load();
 
-  // When videoUrl changes, swap the source and recreate the video texture to update the GPU
-  useEffect(() => {
-    if (videoRef.current && videoUrl) {
-      const vid = videoRef.current;
-      vid.pause();
-      
-      const resolvedUrl = videoUrl.startsWith('http') || videoUrl.startsWith('/') || videoUrl.startsWith('blob:') 
-        ? videoUrl 
-        : `${import.meta.env.BASE_URL || '/'}${videoUrl}`;
-        
-      vid.src = resolvedUrl;
-      vid.load();
+        const tex = new THREE.VideoTexture(vid);
+        tex.colorSpace = THREE.SRGBColorSpace; // preserve vibrant video colors
+        tex.generateMipmaps = false;
+        tex.minFilter = THREE.LinearFilter;
+        tex.magFilter = THREE.LinearFilter;
+        tex.anisotropy = 16; // Improve texture sharpness at oblique viewing angles
 
-      // Create new VideoTexture for the new source to trigger a React state change and GPU upload
-      const tex = new THREE.VideoTexture(vid);
-      tex.colorSpace = THREE.SRGBColorSpace; // preserve vibrant video colors
-      setTexture(tex);
-      
-      vid.play().catch((err) => console.log('Video source swap error', err));
+        cacheRef.current[videoUrl] = { video: vid, texture: tex };
+      }
 
-      return () => {
-        tex.dispose();
-      };
+      const current = cacheRef.current[videoUrl];
+
+      // 2. Set the active texture
+      setTexture(current.texture);
+
+      // 3. Play the current video
+      current.video.play().catch((err) => console.log('Video play error', err));
+
+      // 4. Pause all other videos in cache
+      Object.entries(cacheRef.current).forEach(([url, item]) => {
+        if (url !== videoUrl) {
+          item.video.pause();
+        }
+      });
     }
   }, [videoUrl]);
+
+  // Clean up all cache resources on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(cacheRef.current).forEach((item) => {
+        item.video.pause();
+        item.video.src = '';
+        item.video.load();
+        item.texture.dispose();
+      });
+      cacheRef.current = {};
+    };
+  }, []);
 
   // Tilt model slightly towards the mouse pointer for immersive responsiveness
   useFrame((state) => {
