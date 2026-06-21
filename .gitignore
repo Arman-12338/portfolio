@@ -16,20 +16,16 @@ dist-ssr
 !.env.example
 
 # Private credentials/certificates
-certificate/
-public/certificate/
+/certificate/
 
 # Duplicate assets / videos
-video/
-public/video/
+/video/
 
 # Personal photo folders
-photo/
-public/photo/
+/photo/
 
 # Personal resume folders
-resume/
-public/resume/
+/resume/
 
 
 
