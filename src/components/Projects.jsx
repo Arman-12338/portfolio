@@ -1,9 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Briefcase, CloudSun, DollarSign, Swords } from 'lucide-react';
+import { ExternalLink, Briefcase, CloudSun, DollarSign, Swords, MessageSquare } from 'lucide-react';
 import Card3D from './ui/Card3D';
 
 const projects = [
+  {
+    name: 'Connect Sphere',
+    icon: MessageSquare,
+    desc: 'A real-time chat application featuring instant message transmission, private channel communication, client connection status tracking, and fluid modern dark theme.',
+    features: [
+      'Real-time messages via Socket.io',
+      'Secure MongoDB message history caching',
+      'Responsive, glassmorphic layout'
+    ],
+    tech: ['MERN Stack', 'Socket.io', 'Express.js', 'MongoDB', 'Node.js', 'Tailwind CSS'],
+    github: 'https://github.com/Arman-12338/ConnectSphere',
+    demo: 'https://connectsphere-weld.vercel.app',
+    glow: 'rgba(168, 85, 247, 0.2)'
+  },
   {
     name: 'Weather App',
     icon: CloudSun,
@@ -14,39 +28,40 @@ const projects = [
       'Responsive, modern forecast layout'
     ],
     tech: ['React.js', 'Tailwind CSS', 'OpenWeather API', 'Lottie-React'],
-    github: 'https://github.com',
-    demo: 'https://google.com',
+    github: 'https://github.com/Arman-12338/weather',
+    demo: null,
     glow: 'rgba(6, 182, 212, 0.15)'
   },
   {
     name: 'Expense Tracker',
     icon: DollarSign,
-    desc: 'A robust personal financial registry, mapping transactional ledger logs, budgeting allocations, and expense analytics.',
+    desc: 'A group-developed personal financial registry mapping transactional ledger logs and expense analytics. (Group project; repository code shared on GitHub)',
     features: [
       'Expense entry ledger',
       'Interactive budget breakdowns',
       'Visual statistics dashboard'
     ],
     tech: ['MERN Stack', 'Express', 'MongoDB', 'Chart.js', 'Node.js'],
-    github: 'https://github.com',
-    demo: 'https://google.com',
+    github: 'https://github.com/Arman-12338/Expense-Tracker',
+    demo: null,
     glow: 'rgba(168, 85, 247, 0.15)'
   },
   {
     name: 'Tic-Tac-Toe',
     icon: Swords,
-    desc: 'An interactive dual-player game built around custom React board state architectures, fluid animations, and high score keepers.',
+    desc: 'An interactive dual-player game built with responsive layout styling, game state tracking, and clear Win/Draw condition checks.',
     features: [
-      'Interactive custom gameplay',
-      'React component state registry',
-      'Framer Motion UI animations'
+      'Responsive grid board setup',
+      'Dynamic win and draw logic checks',
+      'Aesthetic CSS layout styling'
     ],
-    tech: ['React.js', 'Framer Motion', 'Tailwind CSS', 'Hooks API'],
-    github: 'https://github.com',
-    demo: 'https://google.com',
+    tech: ['HTML5', 'CSS3', 'Bootstrap', 'JavaScript'],
+    github: 'https://github.com/Arman-12338/Tic-Tac-Toe-',
+    demo: 'https://arman-12338.github.io/Tic-Tac-Toe-/',
     glow: 'rgba(236, 72, 153, 0.15)'
   }
 ];
+
 
 export default function Projects() {
   return (
@@ -151,7 +166,7 @@ export default function Projects() {
                     </div>
 
                     {/* Action Links */}
-                    <div className="grid grid-cols-2 gap-3 pt-2">
+                    <div className={project.demo ? "grid grid-cols-2 gap-3 pt-2" : "grid grid-cols-1 pt-2"}>
                       <a
                         href={project.github}
                         target="_blank"
@@ -162,15 +177,17 @@ export default function Projects() {
                         <span>Source Code</span>
                       </a>
                       
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="py-2.5 rounded-xl bg-gradient-to-r from-cyber-primary/20 to-cyber-secondary/20 border border-cyber-secondary hover:from-cyber-primary hover:to-cyber-secondary text-white font-mono text-xs flex items-center justify-center gap-1.5 transition-all duration-500 shadow-md"
-                      >
-                        <span>Live Demo</span>
-                        <ExternalLink size={14} />
-                      </a>
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="py-2.5 rounded-xl bg-gradient-to-r from-cyber-primary/20 to-cyber-secondary/20 border border-cyber-secondary hover:from-cyber-primary hover:to-cyber-secondary text-white font-mono text-xs flex items-center justify-center gap-1.5 transition-all duration-500 shadow-md"
+                        >
+                          <span>Live Demo</span>
+                          <ExternalLink size={14} />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </Card3D>

@@ -9,30 +9,42 @@ const certs = [
     issuer: 'Google Cloud / Leading Providers',
     desc: 'Deep exploration of large language models, prompting architecture, semantic vector search integration, and neural weights.',
     icon: Cpu,
-    glow: 'rgba(236, 72, 153, 0.25)'
+    glow: 'rgba(236, 72, 153, 0.25)',
+    image: import.meta.env.VITE_CERT_AI_URL || 'certificate/ai certificate.jpeg'
   },
   {
     title: 'MERN Stack Development',
     issuer: 'Professional Development Series',
     desc: 'Full-stack mastery covering MongoDB architectures, Express API middleware, React state contexts, and Node backends.',
     icon: Database,
-    glow: 'rgba(168, 85, 247, 0.25)'
+    glow: 'rgba(168, 85, 247, 0.25)',
+    image: import.meta.env.VITE_CERT_MERN_URL || 'certificate/Screenshot 2026-05-31 124411.png'
   },
   {
     title: 'Web Development Core',
     issuer: 'Industry Standard Training',
     desc: 'Advanced modern web architectures, focusing on semantic HTML5 coding, styling schemas, performance, and cross-browser testing.',
     icon: Globe,
-    glow: 'rgba(6, 182, 212, 0.25)'
+    glow: 'rgba(6, 182, 212, 0.25)',
+    image: import.meta.env.VITE_CERT_WEB_CORE_URL || 'certificate/Screenshot 2026-04-11 110031.png'
   },
   {
     title: 'Full Stack Engineering',
     issuer: 'KITS Engineering Program',
     desc: 'Comprehensive systems engineering covering structured design principles, algorithm complexity, data models, and team delivery.',
     icon: Terminal,
-    glow: 'rgba(59, 130, 246, 0.25)'
+    glow: 'rgba(59, 130, 246, 0.25)',
+    image: import.meta.env.VITE_CERT_FULL_STACK_URL || 'certificate/certificate.png'
   }
 ];
+
+const resolveCertImage = (imagePath) => {
+  if (!imagePath) return '';
+  if (imagePath.startsWith('http') || imagePath.startsWith('/') || imagePath.startsWith('data:')) {
+    return imagePath;
+  }
+  return `${import.meta.env.BASE_URL || '/'}${imagePath}`;
+};
 
 export default function Certifications() {
   const [activeCert, setActiveCert] = useState(null);
@@ -92,26 +104,19 @@ export default function Certifications() {
                 >
                   {/* Certificate Digital Badge Thumbnail Container */}
                   <div 
-                    className="relative w-full sm:w-[150px] aspect-[4/3] rounded-xl overflow-hidden border border-white/10 shrink-0 cursor-pointer group/thumb bg-slate-950/80 flex flex-col items-center justify-center p-4 transition-all duration-300 hover:border-cyber-secondary/30"
+                    className="relative w-full sm:w-[150px] aspect-[4/3] rounded-xl overflow-hidden border border-white/10 shrink-0 cursor-pointer group/thumb bg-slate-950/80 flex flex-col items-center justify-center transition-all duration-300 hover:border-cyber-secondary/30"
                     onClick={() => setActiveCert(cert)}
                   >
-                    {/* Abstract Grid Overlays */}
-                    <div className="absolute inset-0 opacity-[0.15] bg-[radial-gradient(#a855f7_1px,transparent_1px)] [background-size:8px_8px] pointer-events-none"></div>
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none"></div>
-
-                    {/* Animated Glow Border Frame */}
-                    <div className="absolute inset-x-3 inset-y-3 border border-white/5 rounded-lg flex items-center justify-center">
-                      <CertIcon 
-                        size={36} 
-                        className="text-cyber-secondary group-hover/thumb:scale-110 transition-transform duration-500" 
-                        style={{ filter: `drop-shadow(0 0 8px ${cert.glow})` }}
-                      />
-                    </div>
+                    <img 
+                      src={resolveCertImage(cert.image)} 
+                      alt={cert.title} 
+                      className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-500"
+                    />
                     
                     {/* Hover overlay mask */}
-                    <div className="absolute inset-0 bg-slate-950/75 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-1.5 text-xs text-cyber-secondary font-mono font-bold">
+                    <div className="absolute inset-0 bg-slate-950/85 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-1.5 text-xs text-cyber-secondary font-mono font-bold">
                       <Eye size={14} />
-                      <span>VERIFY RECORD</span>
+                      <span>VIEW RECORD</span>
                     </div>
                   </div>
 
@@ -194,12 +199,14 @@ export default function Certifications() {
               <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-cyber-secondary/40"></div>
               <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-cyber-secondary/40"></div>
               
-              {/* Big central icon */}
-              {React.createElement(activeCert.icon, {
-                size: 56,
-                className: "text-cyber-secondary mb-5 animate-pulse",
-                style: { filter: `drop-shadow(0 0 12px ${activeCert.glow})` }
-              })}
+              {/* Certificate Image Frame */}
+              <div className="relative w-full max-h-[40vh] rounded-xl border border-white/10 overflow-hidden bg-slate-950/60 mb-6 shadow-inner flex items-center justify-center cursor-pointer" onClick={() => window.open(resolveCertImage(activeCert.image), '_blank')}>
+                <img 
+                  src={resolveCertImage(activeCert.image)} 
+                  alt={activeCert.title} 
+                  className="max-w-full max-h-[40vh] object-contain hover:scale-[1.02] transition-transform duration-350"
+                />
+              </div>
               
               <div className="space-y-2 mb-6">
                 <span className="text-[10px] font-mono text-cyber-muted tracking-[0.25em] uppercase block">PORTFOLIO ACCREDITATION RECORD</span>

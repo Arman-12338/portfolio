@@ -8,28 +8,36 @@ import Canvas3D from './ui/Canvas3D';
 
 const projects = [
   {
+    name: 'Connect Sphere',
+    description: 'A real-time chat application featuring instant message transmission, private channel communication, client connection status tracking, and fluid modern dark theme.',
+    tech: ['MERN Stack', 'Socket.io', 'Express.js', 'MongoDB', 'Node.js', 'Tailwind CSS'],
+    video: import.meta.env.VITE_CONNECT_SPHERE_VIDEO_URL || 'video/chat1.mp4',
+    github: 'https://github.com/Arman-12338/ConnectSphere',
+    demo: 'https://connectsphere-weld.vercel.app'
+  },
+  {
     name: 'Weather App',
     description: 'A premium, real-time weather analytics application. Integrates global geolocation databases and OpenWeather APIs to produce real-time forecasts, atmospheric metrics, and sleek, weather-conditioned visual interfaces.',
     tech: ['React.js', 'Tailwind CSS', 'OpenWeather API', 'Lottie Animations', 'HTML5'],
-    video: 'video/Screen Recording 2025-10-02 115341.mp4',
-    github: 'https://github.com',
-    demo: 'https://google.com'
+    video: import.meta.env.VITE_WEATHER_APP_VIDEO_URL || 'video/Screen Recording 2025-10-02 115341.mp4',
+    github: 'https://github.com/Arman-12338/weather',
+    demo: null
   },
   {
     name: 'Expense Tracker',
-    description: 'A professional personal budgeting dashboard. Designed to handle expense tracking, categorical transaction ledgers, interactive budget allocations, and real-time dashboard expense statistics.',
+    description: 'A group project resulting in a professional personal budgeting dashboard. Designed to handle expense tracking, transactions, and real-time dashboard statistics, with the codebase shared on GitHub.',
     tech: ['MERN Stack', 'Express.js', 'MongoDB', 'Chart.js Core', 'Tailwind CSS', 'Node.js'],
-    video: 'video/Screen Recording 2025-10-11 143523.mp4',
-    github: 'https://github.com',
-    demo: 'https://google.com'
+    video: import.meta.env.VITE_EXPENSE_TRACKER_VIDEO_URL || 'video/Screen Recording 2026-03-17 103114.mp4',
+    github: 'https://github.com/Arman-12338/Expense-Tracker',
+    demo: null
   },
   {
     name: 'Tic-Tac-Toe',
-    description: 'An interactive, high-fidelity classic gameplay application. Built around custom React state structures, fluid Framer Motion board animations, scorekeeping profiles, and zero latency touch indicators.',
-    tech: ['React.js', 'Framer Motion', 'React Hooks', 'Tailwind CSS', 'Micro-interactions'],
-    video: 'video/Screen Recording 2026-03-17 103114.mp4',
-    github: 'https://github.com',
-    demo: 'https://google.com'
+    description: 'An interactive, classic gameplay application built with clean HTML5 structure, responsive Bootstrap styling, and pure JavaScript logic controls.',
+    tech: ['HTML5', 'CSS3', 'Bootstrap', 'JavaScript'],
+    video: import.meta.env.VITE_TICTACTOE_VIDEO_URL || 'video/Screen Recording 2025-10-11 143523.mp4',
+    github: 'https://github.com/Arman-12338/Tic-Tac-Toe-',
+    demo: 'https://arman-12338.github.io/Tic-Tac-Toe-/'
   }
 ];
 
@@ -47,7 +55,10 @@ function DesktopMonitor3D({ videoUrl }) {
     vid.loop = true;
     vid.muted = true;
     vid.playsInline = true;
-    vid.src = videoUrl;
+    const resolvedUrl = videoUrl.startsWith('http') || videoUrl.startsWith('/') || videoUrl.startsWith('blob:') 
+      ? videoUrl 
+      : `${import.meta.env.BASE_URL || '/'}${videoUrl}`;
+    vid.src = resolvedUrl;
     vid.load();
     vid.play().catch((err) => console.log('Video play error on mount', err));
     
@@ -71,7 +82,10 @@ function DesktopMonitor3D({ videoUrl }) {
     if (videoRef.current && videoUrl) {
       const vid = videoRef.current;
       vid.pause();
-      vid.src = videoUrl;
+      const resolvedUrl = videoUrl.startsWith('http') || videoUrl.startsWith('/') || videoUrl.startsWith('blob:') 
+        ? videoUrl 
+        : `${import.meta.env.BASE_URL || '/'}${videoUrl}`;
+      vid.src = resolvedUrl;
       vid.load();
       vid.play().catch((err) => console.log('Video source swap error', err));
     }
@@ -187,7 +201,7 @@ export default function Showcase3D() {
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyber-secondary/30 bg-cyber-secondary/10 text-cyber-secondary font-mono text-[10px] sm:text-xs tracking-widest uppercase mb-4"
           >
             <Monitor size={12} />
-            <span>INTERACTIVE WORKSPACE</span>
+            <span>PROJECT PREVIEW</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -279,15 +293,17 @@ export default function Showcase3D() {
                       <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                       <span>Repository</span>
                     </a>
-                    <a
-                      href={activeProject.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyber-primary/20 to-cyber-secondary/20 border border-cyber-secondary hover:from-cyber-primary hover:to-cyber-secondary text-white font-mono text-xs flex items-center gap-1.5 transition-all duration-500 shadow-md"
-                    >
-                      <span>Live Demo</span>
-                      <ExternalLink size={14} />
-                    </a>
+                    {activeProject.demo && (
+                      <a
+                        href={activeProject.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyber-primary/20 to-cyber-secondary/20 border border-cyber-secondary hover:from-cyber-primary hover:to-cyber-secondary text-white font-mono text-xs flex items-center gap-1.5 transition-all duration-500 shadow-md"
+                      >
+                        <span>Live Demo</span>
+                        <ExternalLink size={14} />
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -296,10 +312,6 @@ export default function Showcase3D() {
 
           {/* Right Block: 3D Monitor canvas */}
           <div className="lg:col-span-6 h-[400px] sm:h-[450px] relative w-full flex justify-center items-center rounded-2xl overflow-hidden glass-panel border-white/5">
-            <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1 rounded-md bg-slate-950/80 border border-cyber-primary/30 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider">CURVED WIDESCREEN ACTIVE</span>
-            </div>
 
             <div className="canvas-container">
               <Canvas3D camera={{ position: [0, 0, 4.2], fov: 45 }} fallbackType="monitor">

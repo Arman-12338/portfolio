@@ -107,7 +107,7 @@ export default function App() {
               {/* Glowing footer */}
               <div className="mt-8 flex items-center gap-2 justify-center font-mono text-[10px] text-cyber-muted">
                 <Sparkles size={11} className="text-cyber-accent animate-spin-slow" />
-                <span>ANTIGRAVITY SYSTEMS ONLINE</span>
+                <span>ARMAN SYSTEMS ONLINE</span>
               </div>
             </div>
           </motion.div>

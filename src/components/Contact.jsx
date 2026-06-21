@@ -25,7 +25,7 @@ export default function Contact() {
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText('mohda.arman.developer@gmail.com'); // Mock portfolio developer email
+    navigator.clipboard.writeText('mohdarman7043@gmail.com');
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
@@ -54,9 +54,12 @@ export default function Contact() {
     }, 1500);
   };
 
-  const handleDownloadResume = (e) => {
-    e.preventDefault();
-    alert("Interactive CV Mockup: Mohammad Arman's resume file downloaded successfully!");
+  const getResumeUrl = () => {
+    const url = import.meta.env.VITE_RESUME_URL || 'resume/Arman_Resume_Updated.pdf';
+    if (url.startsWith('http') || url.startsWith('/') || url.startsWith('data:')) {
+      return url;
+    }
+    return `${import.meta.env.BASE_URL || '/'}${url}`;
   };
 
   return (
@@ -131,8 +134,8 @@ export default function Contact() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <span className="text-[10px] text-cyber-muted font-mono tracking-wider uppercase block">EMAIL ADDRESS</span>
-                    <a href="mailto:mohda.arman.developer@gmail.com" className="text-xs sm:text-sm font-semibold text-slate-200 hover:text-white truncate block">
-                      mohda.arman.developer@gmail.com
+                    <a href="mailto:mohdarman7043@gmail.com" className="text-xs sm:text-sm font-semibold text-slate-200 hover:text-white truncate block">
+                      mohdarman7043@gmail.com
                     </a>
                   </div>
                   <button 
@@ -162,33 +165,51 @@ export default function Contact() {
                 <span className="text-xs font-mono text-cyber-muted uppercase tracking-wider block">PROFESSIONAL PORTALS</span>
                 <div className="flex items-center gap-3">
                   <a
-                    href="https://linkedin.com"
+                    href="https://linkedin.com/in/mohammad-arman-667a01387"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 hover:border-cyber-secondary hover:text-cyber-secondary text-slate-300 flex items-center justify-center transition-all duration-300"
                     aria-label="LinkedIn Profile"
+                    title="Connect on LinkedIn"
                   >
                     <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                   </a>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/Arman-12338"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 hover:border-cyber-primary hover:text-cyber-primary text-slate-300 flex items-center justify-center transition-all duration-300"
                     aria-label="GitHub Profile"
+                    title="Follow on GitHub"
                   >
                     <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                   </a>
+                  {import.meta.env.VITE_WHATSAPP_URL && (
+                    <a
+                      href={import.meta.env.VITE_WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 hover:border-green-500 hover:text-green-400 text-slate-300 flex items-center justify-center transition-all duration-300"
+                      aria-label="WhatsApp Chat"
+                      title="Chat on WhatsApp"
+                    >
+                      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="none" className="shrink-0">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.456L0 24zm6.59-4.846c1.6.95 3.488 1.459 5.416 1.46 5.861 0 10.63-4.757 10.635-10.612.002-2.837-1.1-5.501-3.103-7.507C17.593 4.49 14.939 3.393 12.01 3.393c-5.87 0-10.64 4.757-10.645 10.613-.001 1.982.518 3.921 1.503 5.636l-.993 3.63 3.738-.981zm12.336-7.854c-.317-.159-1.88-.928-2.172-1.034-.29-.105-.503-.159-.714.159-.21.318-.813 1.034-.997 1.246-.182.213-.367.24-.683.081-3.327-1.666-4.526-2.52-6.177-5.367-.32-.553.32-.513.917-1.705.101-.2.051-.375-.025-.534-.076-.16-.714-1.722-.979-2.361-.258-.621-.52-.536-.714-.546-.185-.008-.396-.01-.607-.01-.212 0-.556.08-.847.4-.29.32-1.111 1.087-1.111 2.65 0 1.563 1.137 3.076 1.296 3.289.159.213 2.24 3.42 5.424 4.793.757.327 1.348.522 1.81.669.76.241 1.45.207 2.0.125.61-.092 1.88-.77 2.145-1.478.265-.708.265-1.316.185-1.442-.08-.127-.294-.213-.61-.372z"/>
+                      </svg>
+                    </a>
+                  )}
                   
-                  {/* Quick CV Download button inside communication portal */}
-                  <button
-                    onClick={handleDownloadResume}
+                  {/* Quick CV Download link inside communication portal */}
+                  <a
+                    href={getResumeUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="h-11 px-4 rounded-xl bg-white/5 border border-white/10 hover:border-cyber-accent text-slate-300 hover:text-white font-mono text-xs flex items-center gap-2 transition-all duration-300"
                     aria-label="Download Resume"
                   >
                     <Download size={14} className="text-cyber-accent" />
                     <span>DOWNLOAD RESUME</span>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

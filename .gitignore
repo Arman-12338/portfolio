@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .env
 .env.*
+!.env.example
 
 # Private credentials/certificates
 certificate/
@@ -20,6 +21,15 @@ public/certificate/
 
 # Duplicate assets / videos
 video/
+public/video/
+
+# Personal photo folders
+photo/
+public/photo/
+
+# Personal resume folders
+resume/
+public/resume/
 
 
 
