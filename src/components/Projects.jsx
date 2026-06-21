@@ -1,9 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Briefcase, CloudSun, DollarSign, Swords, MessageSquare } from 'lucide-react';
+import { ExternalLink, Briefcase, CloudSun, DollarSign, Swords, MessageSquare, FileCheck } from 'lucide-react';
 import Card3D from './ui/Card3D';
 
 const projects = [
+  {
+    name: 'ATS Resume Checker',
+    icon: FileCheck,
+    desc: 'An AI-driven ATS resume evaluation dashboard built in collaboration with Digital Hero. Parses resume metrics against job descriptions to score matching and highlight critical keyword improvements.',
+    features: [
+      'Keyword parsing & match percentage calculation',
+      'Actionable recommendations for ATS optimization',
+      'Modern, dynamic dark-themed dashboard UI'
+    ],
+    tech: ['React.js', 'Tailwind CSS', 'Framer Motion', 'Vite'],
+    github: 'https://github.com/Arman-12338/Ats-resume-checker',
+    demo: 'https://ats-resume-checker-lovat.vercel.app/',
+    glow: 'rgba(6, 182, 212, 0.2)'
+  },
   {
     name: 'Connect Sphere',
     icon: MessageSquare,

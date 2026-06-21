@@ -8,6 +8,14 @@ import Canvas3D from './ui/Canvas3D';
 
 const projects = [
   {
+    name: 'ATS Resume Checker',
+    description: 'An intelligent resume analysis application developed as an internship milestone in collaboration with Digital Hero. It scores resume compatibility against job descriptions, identifies missing keywords, and outlines clear optimization suggestions to improve success rates.',
+    tech: ['React.js', 'Tailwind CSS', 'Framer Motion', 'Vite'],
+    video: import.meta.env.VITE_ATS_RESUME_CHECKER_VIDEO_URL || 'video/ats_resume_checker.mp4',
+    github: 'https://github.com/Arman-12338/Ats-resume-checker',
+    demo: 'https://ats-resume-checker-lovat.vercel.app/'
+  },
+  {
     name: 'Connect Sphere',
     description: 'A real-time chat application featuring instant message transmission, private channel communication, client connection status tracking, and fluid modern dark theme.',
     tech: ['MERN Stack', 'Socket.io', 'Express.js', 'MongoDB', 'Node.js', 'Tailwind CSS'],
